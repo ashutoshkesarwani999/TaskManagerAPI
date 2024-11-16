@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from api import router
 from core.config import config
-
+from core.fastapi.middleware.sqlalchemy import SQLAlchemyMiddleware
 
 def init_routers(app_: FastAPI) -> None:
     app_.include_router(router)
@@ -21,7 +21,8 @@ def make_middleware() -> List[Middleware]:
             allow_credentials=True,
             allow_methods=["*"],
             allow_headers=["*"],
-        )
+        ),
+        Middleware(SQLAlchemyMiddleware)
     ]
     return middleware
 
