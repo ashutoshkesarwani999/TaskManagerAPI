@@ -25,6 +25,7 @@ class Config():
     DEFAULT_LOCALE: str = "en_US"
     ENVIRONMENT: str = EnvironmentType.DEVELOPMENT
     POSTGRES_URL:PostgresDsn=   create_postgres_url()
+    APIPORT: int = 8000
 
 
 config: Config = Config()
