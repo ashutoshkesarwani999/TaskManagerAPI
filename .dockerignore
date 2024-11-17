@@ -10,3 +10,4 @@ __pycache__
 .vscode
 *.md
 postgres_data
+venv
