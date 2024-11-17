@@ -1,15 +1,17 @@
 from contextvars import ContextVar, Token
 from typing import Union
 
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
     async_scoped_session,
     create_async_engine,
 )
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.sql.expression import Delete, Insert, Select, Update
+from sqlalchemy.orm import Session, declarative_base, sessionmaker
+from sqlalchemy.sql.expression import Delete, Insert, Update
 
 from core.config import config
+from core.utils.logging import logger
 
 session_context: ContextVar[str] = ContextVar("session_context")
 
@@ -46,15 +48,14 @@ engines = {
 }
 
 
-class RoutingSession(sessionmaker):
+class RoutingSession(Session):
     def get_bind(self, mapper=None, clause=None, **kw):
         """
         select the Read or write engine based on the query type
         """
         if self._flushing or isinstance(clause, (Update, Delete, Insert)):
             return engines["writer"].sync_engine
-        else:
-            return engines["reader"].sync_engine
+        return engines["reader"].sync_engine
 
 
 async_session_factory = sessionmaker(
@@ -77,3 +78,21 @@ async def get_session():
         yield session
     finally:
         await session.close()
+
+
+async def test_connection():
+    """
+    Test the database connection.
+    """
+    token = set_session_context("test-connection")
+    try:
+        result = await session.execute(text("SELECT 1"))
+        return result.scalar() == 1
+    except Exception as e:
+        logger.error(f"Failed to connect to database: {e}", exc_info=True)
+        return False
+    finally:
+        reset_session_context(token)
+
+
+Base = declarative_base()
