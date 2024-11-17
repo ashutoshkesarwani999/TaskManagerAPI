@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from .tasks.tasks import task_router
 from .health.health import health_router
+from .tasks.tasks import task_router
 
 v1_router = APIRouter()
 v1_router.include_router(
