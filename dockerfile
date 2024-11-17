@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 
-WORKDIR .
+WORKDIR /app
 COPY pyproject.toml poetry.lock ./
 RUN pip install poetry && poetry install
 COPY . . 
