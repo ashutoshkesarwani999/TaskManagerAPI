@@ -1,14 +1,17 @@
 import os
-from dotenv import load_dotenv
 from enum import Enum
-from pydantic import  PostgresDsn
+
+from dotenv import load_dotenv
+from pydantic import PostgresDsn
 
 load_dotenv()
+
 
 class EnvironmentType(str, Enum):
     DEVELOPMENT = "development"
     PRODUCTION = "production"
     TEST = "test"
+
 
 def create_postgres_url():
     scheme = "postgresql+asyncpg"
@@ -20,11 +23,12 @@ def create_postgres_url():
 
     return f"{scheme}://{username}:{password}@{host}:{port}/{database}"
 
-class Config():
+
+class Config:
     DEBUG: int = 0
     DEFAULT_LOCALE: str = "en_US"
     ENVIRONMENT: str = EnvironmentType.DEVELOPMENT
-    POSTGRES_URL:PostgresDsn=   create_postgres_url()
+    POSTGRES_URL: PostgresDsn = create_postgres_url()
     APIPORT: int = 8000
 
 
