@@ -13,7 +13,7 @@ disable = missing-module-docstring,
           fixme,
           too-few-public-methods,
           line-too-long,
-          unused-argument,
           c-extension-no-member,
           not-callable,
           invalid-name,
+          logging-fstring-interpolation
