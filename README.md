@@ -54,6 +54,7 @@ poetry shell
 ```bash
 poetry install
 ```
+4. Copy the `.env.example` file to `.env` and update the values as per your needs.
 
 3. Run the database and redis containers:
 
@@ -65,12 +66,11 @@ Note: For latest Ubuntu
 docker compose up --builld
 ```
 
-4. Copy the `.env.example` file to `.env` and update the values as per your needs.
 
-5. Run the migrations:
+5. Run the test (unittest and BDD Test):
 
 ```bash
-make migrate
+make test
 ```
 
 6. Run the server:
