@@ -10,11 +10,15 @@ A Task Manager API for managing tasks in a to-do list application. The API allow
 
 ## Task Model
 
-* id : unique
-* title: string
-* description: string
-* completed: boolean
-* created_at: timestamp
+
+The `Task` class represents a task entity in the database. This model includes the following fields:
+
+- **id**: The unique identifier of the task (Primary Key, Auto Increment).
+- **title**: A required string field for the task's title (max length 255).
+- **description**: An optional string field for the task's description (max length 255).
+- **completed**: A boolean indicating whether the task is completed (default: `False`).
+- **created_at**: The timestamp when the task was created (default: current time).
+
 
 ![diagram](/class_diag.png)
 ### Features
