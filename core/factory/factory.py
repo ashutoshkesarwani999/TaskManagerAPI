@@ -14,11 +14,9 @@ class Factory:
     repositories which can be accessed by the rest of the application.
     """
 
-    # Repositories
     task_repository = partial(TaskRepository, Task)
 
     def get_task_controller(self, db_session=Depends(get_session)):
         return TaskController(
             task_repository=TaskRepository(db_session)
-            # task_repository=self.task_repository(db_session=db_session)
         )
