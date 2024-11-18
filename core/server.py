@@ -13,11 +13,25 @@ from core.fastapi.middleware.sqlalchemy import SQLAlchemyMiddleware
 
 
 def init_routers(app_: FastAPI) -> None:
+    """
+    Initialize FastAPI application routes.
+    """
     app_.include_router(router)
 
 
 async def global_exception_handler(request, exc):
-
+    """
+    Global exception handler for the FastAPI application.
+    
+    Args:
+        request: The incoming request
+        exc: The exception that was raised
+        
+    Returns:
+        JSONResponse: A JSON response containing error details
+            - For StarletteHTTPException: Returns the status code and error detail
+            - For other exceptions: Returns 500 Internal Server Error
+    """
     if isinstance(exc, StarletteHTTPException):
         return JSONResponse(
             status_code=exc.status_code,
@@ -30,6 +44,15 @@ async def global_exception_handler(request, exc):
 
 
 def make_middleware() -> List[Middleware]:
+    """
+    Configure and create middleware stack for the FastAPI application.
+    
+    Returns:
+        List[Middleware]: A list of middleware configurations including:
+            - CORS middleware with all origins allowed
+            - Exception handling middleware
+            - SQLAlchemy session middleware
+    """
     middleware = [
         Middleware(
             CORSMiddleware,
@@ -45,6 +68,9 @@ def make_middleware() -> List[Middleware]:
 
 
 def create_app() -> FastAPI:
+    """
+    Create and configure the FastAPI application.
+    """
     app_ = FastAPI(
         title="Task Manager API",
         description="Create update delete and View your tasks",
