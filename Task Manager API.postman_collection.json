@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "02bdba54-551a-4a34-87b4-66cf23e63f05",
 		"name": "Task Manager API",
+		"description": "Create update delete and View your tasks",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33336751",
 		"_collection_link": "https://bold-rocket-462180.postman.co/workspace/cfced705-558a-4442-a7de-17e5a3d3d66a/collection/33336751-02bdba54-551a-4a34-87b4-66cf23e63f05?action=share&source=collection_link&creator=33336751"
@@ -37,10 +38,15 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/v1/tasks/",
+									"raw": "http://0.0.0.0:8000/v1/tasks/",
+									"protocol": "http",
 									"host": [
-										"{{baseUrl}}"
+										"0",
+										"0",
+										"0",
+										"0"
 									],
+									"port": "8000",
 									"path": [
 										"v1",
 										"tasks",
@@ -192,10 +198,15 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/v1/tasks/?skip=0&limit=100",
+									"raw": "http://0.0.0.0:8000/v1/tasks/?skip=0&limit=100",
+									"protocol": "http",
 									"host": [
-										"{{baseUrl}}"
+										"0",
+										"0",
+										"0",
+										"0"
 									],
+									"port": "8000",
 									"path": [
 										"v1",
 										"tasks",
@@ -362,10 +373,15 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/v1/tasks/:task_id",
+									"raw": "http://0.0.0.0:8000/v1/tasks/:task_id",
+									"protocol": "http",
 									"host": [
-										"{{baseUrl}}"
+										"0",
+										"0",
+										"0",
+										"0"
 									],
+									"port": "8000",
 									"path": [
 										"v1",
 										"tasks",
@@ -613,10 +629,15 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/v1/tasks/1",
+									"raw": "http://0.0.0.0:8000/v1/tasks/1",
+									"protocol": "http",
 									"host": [
-										"{{baseUrl}}"
+										"0",
+										"0",
+										"0",
+										"0"
 									],
+									"port": "8000",
 									"path": [
 										"v1",
 										"tasks",
@@ -1117,10 +1138,15 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/v1/health/",
+							"raw": "http://0.0.0.0:8000/v1/health/",
+							"protocol": "http",
 							"host": [
-								"{{baseUrl}}"
+								"0",
+								"0",
+								"0",
+								"0"
 							],
+							"port": "8000",
 							"path": [
 								"v1",
 								"health",
@@ -1201,6 +1227,35 @@
 					]
 				}
 			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "{{base_url}}",
+			"value": "http://0.0.0.0:8000",
+			"type": "string"
 		}
 	]
 }
