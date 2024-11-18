@@ -37,49 +37,39 @@ You need following to run this project:
 
 - Python 3.12
 - Docker with Docker Compose
-- Poetry
+- makefile
+- pytest
 
+Once you have installed the required tools and cloned the repository, follow these steps to get the project up and running:
 
-Once you have installed the above and have cloned the repository, you can follow the following steps to get the project up and running:
+1. Copy the `.env.example` file to `.env` and update the values as needed.
 
-1. Create a virtual environment using poetry:
+2. Run the database and Redis containers:
 
-```bash
-poetry shell
-```
+    ```bash
+    docker-compose up --build
+    ```
+    Note: On the latest Ubuntu, use the following command:
 
-2. Install the dependencies:
+    ```bash
+    docker compose up --build
+    ```
 
-```bash
-poetry install
-```
-4. Copy the `.env.example` file to `.env` and update the values as per your needs.
+    The server should now be running at `http://0.0.0.0:8000` and the API documentation should be available at `http://0.0.0.0:8000/docs`.
 
-3. Run the database and redis containers:
+3. In a new terminal, run the tests (unit tests and BDD tests):
 
-```bash
-docker-compose up --build
-```
-Note: For latest Ubuntu 
-```bash
-docker compose up --build
-```
+    ```bash
+    make test
+    ```
 
+    Or, if you have `pytest` installed instead, you can run:
 
-5. Run the test (unittest and BDD Test):
+    ```bash
+    pytest -vv -s --cache-clear ./
+    ```
 
-```bash
-make test
-```
-
-6. Run the server:
-
-```bash
-make run
-```
-
-The server should now be running on `http://localhost:8000` and the API documentation should be available at `http://localhost:8000/docs`.
-
+4. Other make targets with descriptions can be found in the [Makefile Config](#makefile-config).
 
 
 ### Directory Guide

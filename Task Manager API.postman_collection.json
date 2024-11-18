@@ -1,0 +1,1206 @@
+{
+	"info": {
+		"_postman_id": "02bdba54-551a-4a34-87b4-66cf23e63f05",
+		"name": "Task Manager API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33336751",
+		"_collection_link": "https://bold-rocket-462180.postman.co/workspace/cfced705-558a-4442-a7de-17e5a3d3d66a/collection/33336751-02bdba54-551a-4a34-87b4-66cf23e63f05?action=share&source=collection_link&creator=33336751"
+	},
+	"item": [
+		{
+			"name": "v1",
+			"item": [
+				{
+					"name": "tasks",
+					"item": [
+						{
+							"name": "Create New Task",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"1\",\n    \"title\": \"Buy Groceries\",\n    \"description\": \"Milk, Eggs, Bread\",\n    \"completed\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v1/tasks/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"tasks",
+										""
+									]
+								},
+								"description": "Create a new task with the provided details.\n    \n    This endpoint allows you to:\n    * Create a new task\n    * Set completion status\n    * Provide task description"
+							},
+							"response": [
+								{
+									"name": "Task created successfully",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": \"<integer>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"completed\": \"<boolean>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												""
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"title\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"completed\": \"<boolean>\",\n  \"created_at\": \"<dateTime>\"\n}"
+								},
+								{
+									"name": "Task ID already exists",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": \"<integer>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"completed\": \"<boolean>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												""
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error_code\": \"UNPROCESSABLE_ENTITY\",\n  \"detail\": \"Unique constraint violation\"\n}"
+								},
+								{
+									"name": "Database error occured",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": \"<integer>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"completed\": \"<boolean>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												""
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error_code\": \"INTERNAL_SERVER_ERROR\",\n  \"detail\": \"Database error occured\"\n}"
+								}
+							]
+						},
+						{
+							"name": "List All Tasks",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/v1/tasks/?skip=0&limit=100",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"tasks",
+										""
+									],
+									"query": [
+										{
+											"key": "skip",
+											"value": "0",
+											"description": "Number of tasks to skip (pagination)"
+										},
+										{
+											"key": "limit",
+											"value": "100",
+											"description": "Maximum number of tasks to return"
+										}
+									]
+								},
+								"description": "Retrieve a list of all tasks with optional pagination.\n    \n    This endpoint allows you to:\n    * Get all tasks\n    * Paginate results\n    * Filter completed/incomplete tasks"
+							},
+							"response": [
+								{
+									"name": "List of tasks retrieved successfully",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/?skip=0&limit=100",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												""
+											],
+											"query": [
+												{
+													"key": "skip",
+													"value": "0"
+												},
+												{
+													"key": "limit",
+													"value": "100"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"title\": \"<string>\",\n    \"id\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"completed\": \"<boolean>\",\n    \"created_at\": \"<dateTime>\"\n  },\n  {\n    \"title\": \"<string>\",\n    \"id\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"completed\": \"<boolean>\",\n    \"created_at\": \"<dateTime>\"\n  }\n]"
+								},
+								{
+									"name": "Validation Error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/?skip=0&limit=100",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												""
+											],
+											"query": [
+												{
+													"key": "skip",
+													"value": "0"
+												},
+												{
+													"key": "limit",
+													"value": "100"
+												}
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+								},
+								{
+									"name": "Database error occured",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/?skip=0&limit=100",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												""
+											],
+											"query": [
+												{
+													"key": "skip",
+													"value": "0"
+												},
+												{
+													"key": "limit",
+													"value": "100"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error_code\": \"INTERNAL_SERVER_ERROR\",\n  \"detail\": \"Database error occured\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Task by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/v1/tasks/:task_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"tasks",
+										":task_id"
+									],
+									"variable": [
+										{
+											"key": "task_id",
+											"value": "<string>",
+											"description": "(Required) The ID of the task to retrieve"
+										}
+									]
+								},
+								"description": "Retrieve a specific task by its ID.\n    \n    This endpoint allows you to:\n    * Get a single task by ID\n    * View all task details\n    \n    The task ID must be a positive integer."
+							},
+							"response": [
+								{
+									"name": "Task retrieved successfully",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/:task_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												":task_id"
+											],
+											"variable": [
+												{
+													"key": "task_id",
+													"value": "<string>",
+													"description": "(Required) The ID of the task to retrieve"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"title\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"completed\": \"<boolean>\",\n  \"created_at\": \"<dateTime>\"\n}"
+								},
+								{
+									"name": "Invalid format for Task id",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/:task_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												":task_id"
+											],
+											"variable": [
+												{
+													"key": "task_id",
+													"value": "<string>",
+													"description": "(Required) The ID of the task to retrieve"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error_code\": \"INVALID_FORMAT\",\n  \"detail\": \"Expected number, but received string\"\n}"
+								},
+								{
+									"name": "Task not found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/:task_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												":task_id"
+											],
+											"variable": [
+												{
+													"key": "task_id",
+													"value": "<string>",
+													"description": "(Required) The ID of the task to retrieve"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error_code\": \"NOT_FOUND\",\n  \"detail\": \"Task with id: 1 does not exist\"\n}"
+								},
+								{
+									"name": "Validation Error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/:task_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												":task_id"
+											],
+											"variable": [
+												{
+													"key": "task_id",
+													"value": "<string>",
+													"description": "(Required) The ID of the task to retrieve"
+												}
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+								},
+								{
+									"name": "Database error occured",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/:task_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												":task_id"
+											],
+											"variable": [
+												{
+													"key": "task_id",
+													"value": "<string>",
+													"description": "(Required) The ID of the task to retrieve"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error_code\": \"INTERNAL_SERVER_ERROR\",\n  \"detail\": \"Database error occured\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Task",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Buy Groceries\",\n    \"description\": \"Milk, Eggs, Bread, Butter\",\n    \"completed\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v1/tasks/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"tasks",
+										"1"
+									]
+								},
+								"description": "Update an existing task by its ID.\n    \n    This endpoint allows you to:\n    * Update task title\n    * Update task description\n    * Update completion status\n    \n    The task ID must be a positive integer.\n    Only provided fields will be updated."
+							},
+							"response": [
+								{
+									"name": "Task updated successfully",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"completed\": \"<boolean>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/:task_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												":task_id"
+											],
+											"variable": [
+												{
+													"key": "task_id",
+													"value": "<string>",
+													"description": "(Required) The ID of the task to update"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"title\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"completed\": \"<boolean>\",\n  \"created_at\": \"<dateTime>\"\n}"
+								},
+								{
+									"name": "Invalid format for Task id",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"completed\": \"<boolean>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/:task_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												":task_id"
+											],
+											"variable": [
+												{
+													"key": "task_id",
+													"value": "<string>",
+													"description": "(Required) The ID of the task to update"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error_code\": \"INVALID_FORMAT\",\n  \"detail\": \"Expected number, but received string\"\n}"
+								},
+								{
+									"name": "Task not found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"completed\": \"<boolean>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/:task_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												":task_id"
+											],
+											"variable": [
+												{
+													"key": "task_id",
+													"value": "<string>",
+													"description": "(Required) The ID of the task to update"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error_code\": \"NOT_FOUND\",\n  \"detail\": \"Task with id: 1 does not exist\"\n}"
+								},
+								{
+									"name": "Validation Error",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"completed\": \"<boolean>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/:task_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												":task_id"
+											],
+											"variable": [
+												{
+													"key": "task_id",
+													"value": "<string>",
+													"description": "(Required) The ID of the task to update"
+												}
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+								},
+								{
+									"name": "Database error occured",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"completed\": \"<boolean>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/:task_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												":task_id"
+											],
+											"variable": [
+												{
+													"key": "task_id",
+													"value": "<string>",
+													"description": "(Required) The ID of the task to update"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error_code\": \"INTERNAL_SERVER_ERROR\",\n  \"detail\": \"Database error occured\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Task",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/v1/tasks/2",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"tasks",
+										"2"
+									]
+								},
+								"description": "Delete a task by its ID.\n    \n    This endpoint allows you to:\n    * Permanently delete a task\n    \n    The task ID must be a positive integer.\n    This operation cannot be undone."
+							},
+							"response": [
+								{
+									"name": "Task deleted successfully",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/:task_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												":task_id"
+											],
+											"variable": [
+												{
+													"key": "task_id",
+													"value": "<integer>",
+													"description": "(Required) The ID of the task to delete"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Invalid format for Task id",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/:task_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												":task_id"
+											],
+											"variable": [
+												{
+													"key": "task_id",
+													"value": "<integer>",
+													"description": "(Required) The ID of the task to delete"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error_code\": \"INVALID_FORMAT\",\n  \"detail\": \"Expected number, but received string\"\n}"
+								},
+								{
+									"name": "Task not found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/:task_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												":task_id"
+											],
+											"variable": [
+												{
+													"key": "task_id",
+													"value": "<integer>",
+													"description": "(Required) The ID of the task to delete"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error_code\": \"NOT_FOUND\",\n  \"detail\": \"Task with id: 1 does not exist\"\n}"
+								},
+								{
+									"name": "Validation Error",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/:task_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												":task_id"
+											],
+											"variable": [
+												{
+													"key": "task_id",
+													"value": "<integer>",
+													"description": "(Required) The ID of the task to delete"
+												}
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+								},
+								{
+									"name": "Database error occured",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/tasks/:task_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"tasks",
+												":task_id"
+											],
+											"variable": [
+												{
+													"key": "task_id",
+													"value": "<integer>",
+													"description": "(Required) The ID of the task to delete"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error_code\": \"INTERNAL_SERVER_ERROR\",\n  \"detail\": \"Database error occured\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/v1/health/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"health",
+								""
+							]
+						},
+						"description": "Health Check"
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/v1/health/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"health",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"status\": \"<string>\",\n  \"database_connected\": \"<boolean>\"\n}"
+						},
+						{
+							"name": "Database connection failed",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/v1/health/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"health",
+										""
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"status\": \"unhealthy\",\n  \"database_connected\": false\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}

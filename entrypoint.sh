@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# Scrip for running initial migration
 poetry run alembic revision --autogenerate -m "Initial Migration"
 
 # Run Alembic migrations
