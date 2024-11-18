@@ -16,7 +16,7 @@ A Task Manager API for managing tasks in a to-do list application. The API allow
 * completed: boolean
 * created_at: timestamp
 
-
+![diagram](/class_diag.png)
 ### Features
 
 - Python 3.11+ support
