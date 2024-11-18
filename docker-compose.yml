@@ -35,4 +35,4 @@ services:
     volumes:
       - .:/app  # Mount current directory to /app in container
       - /app/postgres_data  # Exclude postgres_data directory
-    command: poetry run python main.py
+    command: ["sh", "/app/entrypoint.sh"]
