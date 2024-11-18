@@ -2,7 +2,7 @@
 name = "Task Manager API"
 version = "0.1.0"
 description = "A Task Manager API"
-authors = ["Ashutosh Kesarwani <ashutoshkesarwani999@gmail.com>"]
+authors = ["Ashutosh Kesarwani <a.kesarwani1310@gmail.com>"]
 readme = "README.md"
 package-mode = false
 
