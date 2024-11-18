@@ -11,7 +11,7 @@ def create_fake_task(
     id: int = None, title: str = None, description: str = None, completed: bool = None
 ):
     return {
-        "id": id if id is not None else randint(1, 1000),
+        "id": id if id is not None else randint(1, 100000),
         "title": (
             title
             if title is not None
