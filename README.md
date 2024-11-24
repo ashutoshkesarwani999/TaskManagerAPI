@@ -48,7 +48,9 @@ Once you have installed the required tools and cloned the repository, follow the
 
 1. Copy the `.env.example` file to `.env` and update the values as needed.
 
-2. Run the database and Redis containers:
+2. Execute `poetry install`. This installs all the latest dependencies to the directory
+
+3. Run the database and Redis containers:
 
     ```bash
     docker-compose up --build
@@ -61,7 +63,7 @@ Once you have installed the required tools and cloned the repository, follow the
 
     The server should now be running at `http://0.0.0.0:8000` and the API documentation should be available at `http://0.0.0.0:8000/docs`.
 
-3. In a new terminal, run the tests (unit tests and BDD tests):
+4. In a new terminal, run the tests (unit tests and BDD tests):
 
     ```bash
     make test
@@ -73,7 +75,7 @@ Once you have installed the required tools and cloned the repository, follow the
     pytest -vv -s --cache-clear ./
     ```
 
-4. Other make targets with descriptions can be found in the [Makefile Config](#makefile-config).
+5. Other make targets with descriptions can be found in the [Makefile Config](#makefile-config).
 
 
 ### Directory Guide
