@@ -1,5 +1,7 @@
 #!/bin/sh
 
+mkdir -p alembic/versions
+
 # Scrip for running initial migration
 poetry run alembic revision --autogenerate -m "Initial Migration"
 
