@@ -3,7 +3,7 @@
 DIR="alembic/versions"
 if [ -d "$DIR" ]; then
     echo "Directory $DIR exists."
-else:
+else
     echo "Directory $DIR does not exist."
     mkdir -p "$DIR"
 fi
@@ -18,6 +18,6 @@ else
     poetry run alembic revision --autogenerate -m "Initial Migration"
     # Run Alembic migrations
     poetry run alembic upgrade head
-
+fi
 # Start FastAPI server
 poetry run python main.py
