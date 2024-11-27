@@ -12,8 +12,10 @@ from api import router
 from core.config import config
 from core.fastapi.middleware.sqlalchemy import SQLAlchemyMiddleware
 from core.security.limiter import limiter
+from starlette.middleware.base import BaseHTTPMiddleware
 
 
+csp_policy = "default-src 'self';"
 def rate_limit_handler(request: Request, exc: RateLimitExceeded):
     return JSONResponse(
         status_code=429,
@@ -75,6 +77,14 @@ def make_middleware() -> List[Middleware]:
     ]
     return middleware
 
+def CSPMiddleware(BaseHTTPMiddleware):
+    def __init__(self, app,csp_policy):
+        super().__init__(app)
+        self.csp_policy = csp_policy
+    async def dispatch(self,request:Request, call_next):
+        response = await call_next(request)
+        response.headers["Content-Security-Policy"] = self.csp_policy
+        return response
 
 def create_app() -> FastAPI:
     """
@@ -87,6 +97,7 @@ def create_app() -> FastAPI:
         docs_url=None if config.ENVIRONMENT == "production" else "/docs",
         middleware=make_middleware(),
     )
+    app_.add_middleware(CSPMiddleware,csp_policy=csp_policy)
     app_.add_exception_handler(RateLimitExceeded, rate_limit_handler)
     app_.state.limiter = limiter
     app_.add_middleware(SlowAPIMiddleware)
