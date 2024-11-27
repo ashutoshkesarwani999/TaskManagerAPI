@@ -42,8 +42,10 @@ class UnprocessableEntity(CustomException):
     status_code = HTTPStatus.UNPROCESSABLE_ENTITY
     detail = HTTPStatus.UNPROCESSABLE_ENTITY.description
 
+
 class DatabaseError(CustomException):
     pass
+
 
 class InternalServerError(CustomException):
     code = HTTPStatus.INTERNAL_SERVER_ERROR

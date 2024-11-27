@@ -173,9 +173,9 @@ class BaseRepo(Generic[ModelType]):
         except ProgrammingError as e:
             error_code = getattr(e.orig, "sqlstate", None)
             if error_code == UndefinedTableError.sqlstate:
-                logger.error("Database table does not exist.",exc_info=True)
+                logger.error("Database table does not exist.", exc_info=True)
 
-            logger.error("Database programming error occurred.",exc_info=True)
+            logger.error("Database programming error occurred.", exc_info=True)
             raise DatabaseError from e
         except SQLAlchemyError as e:
             logger.error(f"Database error occurred: {e}", exc_info=True)
@@ -235,14 +235,14 @@ class BaseRepo(Generic[ModelType]):
         except ProgrammingError as e:
             error_code = getattr(e.orig, "sqlstate", None)
             if error_code == UndefinedTableError.sqlstate:
-                logger.error("Database table does not exist.",exc_info=True)
+                logger.error("Database table does not exist.", exc_info=True)
 
-            logger.error("Database programming error occurred.",exc_info=True)
+            logger.error("Database programming error occurred.", exc_info=True)
             raise DatabaseError from e
         except SQLAlchemyError as e:
             logger.error(f"Database error occurred: {e}", exc_info=True)
             raise DatabaseError from e
-        
+
     async def refresh(self, instance: ModelType) -> None:
         """
         Refresh the given instance from the database.
@@ -258,9 +258,9 @@ class BaseRepo(Generic[ModelType]):
         except ProgrammingError as e:
             error_code = getattr(e.orig, "sqlstate", None)
             if error_code == UndefinedTableError.sqlstate:
-                logger.error("Database table does not exist.",exc_info=True)
+                logger.error("Database table does not exist.", exc_info=True)
 
-            logger.error("Database programming error occurred.",exc_info=True)
+            logger.error("Database programming error occurred.", exc_info=True)
             raise DatabaseError from e
         except SQLAlchemyError as e:
             logger.error(f"Database error occurred: {e}", exc_info=True)

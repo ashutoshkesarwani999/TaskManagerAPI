@@ -2,7 +2,12 @@ from typing import Any, Generic, Type, TypeVar
 from fastapi import HTTPException, status
 
 from core.database import Base, Propagation, Transactional
-from core.exceptions.base import NotFoundException, UnprocessableEntity, InternalServerError,DatabaseError
+from core.exceptions.base import (
+    NotFoundException,
+    UnprocessableEntity,
+    InternalServerError,
+    DatabaseError,
+)
 from core.repository.base import BaseRepo
 
 ModelType = TypeVar("ModelType", bound=Base)
@@ -105,8 +110,8 @@ class BaseController(Generic[ModelType]):
         """
         try:
             db_obj = await self.repository.get_by_field(
-            field="id",
-            value=id,
+                field="id",
+                value=id,
             )
             if not db_obj:
                 raise NotFoundException(
@@ -115,7 +120,7 @@ class BaseController(Generic[ModelType]):
             return db_obj
         except DatabaseError as e:
             raise InternalServerError from e
-        
+
     @Transactional(propagation=Propagation.REQUIRED)
     async def update(
         self,
@@ -148,20 +153,19 @@ class BaseController(Generic[ModelType]):
                     f"{self.model_class.__tablename__.title()} with id: {id} does not exist"
                 )
 
-             
             if db_obj == attributes:
                 raise UnprocessableEntity("No updates provided")
 
             await self.repository.update_by_id(
                 id=id, params=attributes, synchronize_session="evaluate"
             )
-            ab= await self.get_by_id(id)
-            
+            ab = await self.get_by_id(id)
+
             await self.repository.refresh(ab)
             return ab
         except DatabaseError as e:
             raise InternalServerError from e
-        
+
     @Transactional(propagation=Propagation.REQUIRED)
     async def delete(self, id: int) -> bool:
         """

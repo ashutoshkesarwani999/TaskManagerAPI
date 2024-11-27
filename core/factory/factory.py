@@ -17,6 +17,4 @@ class Factory:
     task_repository = partial(TaskRepository, Task)
 
     def get_task_controller(self, db_session=Depends(get_session)):
-        return TaskController(
-            task_repository=TaskRepository(db_session)
-        )
+        return TaskController(task_repository=TaskRepository(db_session))

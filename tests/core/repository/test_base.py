@@ -45,7 +45,7 @@ class TestBaseRepo:
         results = await test_repo.get_all()
 
         # Then
-        assert len(results) >0
+        assert len(results) > 0
 
     async def test_get_all_with_pagination(self, test_repo: BaseRepo[Task]):
         # Given

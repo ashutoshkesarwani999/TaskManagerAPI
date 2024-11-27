@@ -13,10 +13,12 @@ scenarios("features/task_manager.feature")
 
 from tests.factory.task import create_fake_task
 
+
 def custom_serializer(obj):
     if isinstance(obj, bool):
         return "true" if obj else "false"
     return obj
+
 
 @pytest.fixture(scope="function")
 def clear_db():
@@ -102,27 +104,26 @@ def verify_task_details(task_data):
     assert isinstance(task_data["description"], str)
 
 
-@when(
-    parsers.parse(
-        'I update the task to have description "{new_description}"'
-    )
-)
+@when(parsers.parse('I update the task to have description "{new_description}"'))
 def update_task(task_data, new_description):
     id = task_data["id"]
     del task_data["id"]
     del task_data["created_at"]
-    task_data["description"]=new_description
-    task_data["completed"]= str(task_data["completed"]).lower()
-    response = requests.put(
-        f"{BASE_URL}/v1/tasks/{id}", json=task_data    )
+    task_data["description"] = new_description
+    task_data["completed"] = str(task_data["completed"]).lower()
+    response = requests.put(f"{BASE_URL}/v1/tasks/{id}", json=task_data)
     assert response.status_code == 200
     task_data.update(response.json())
 
 
-@then(parsers.parse('the task should be updated with status code 200 and description "{description}"'))
-def verify_task_updated(task_data,description):
+@then(
+    parsers.parse(
+        'the task should be updated with status code 200 and description "{description}"'
+    )
+)
+def verify_task_updated(task_data, description):
     assert isinstance(task_data["title"], str)
-    assert task_data["description"]== description
+    assert task_data["description"] == description
 
 
 @when(parsers.parse("I delete the task"))
@@ -131,9 +132,7 @@ def delete_task(task_data):
     assert response.status_code == 204
 
 
-@then(
-    parsers.parse("the task should be deleted with status code 204")
-)
+@then(parsers.parse("the task should be deleted with status code 204"))
 def verify_task_deleted(task_data):
     response = requests.get(f"{BASE_URL}/v1/tasks/{task_data['id']}")
     assert response.status_code == 404
@@ -146,9 +145,13 @@ def retrieve_nonexistent_task(task_data, task_id):
     task_data.update(response.json())
 
 
-@then(parsers.parse('the response should be no task "{task_id}" found with status code 404'))
+@then(
+    parsers.parse(
+        'the response should be no task "{task_id}" found with status code 404'
+    )
+)
 def verify_nonexistent_task(task_data):
-    assert task_data["detail"] == 'Tasks with id: 9998763 does not exist'
+    assert task_data["detail"] == "Tasks with id: 9998763 does not exist"
 
 
 # Example of using create_fake_task for duplicate tasks
@@ -165,7 +168,6 @@ def create_duplicate_task(title, description, task_data):
     assert response.status_code == 422
 
 
-
 @then("the response should be Unique constraint violation")
 def verify_duplicate_task(task_data):
-    assert task_data["detail"] == 'Unique constraint violation'
+    assert task_data["detail"] == "Unique constraint violation"
