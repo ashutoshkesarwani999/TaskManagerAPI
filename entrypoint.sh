@@ -1,12 +1,23 @@
 #!/bin/sh
 
-mkdir -p alembic/versions
+DIR="alembic/versions"
+if [ -d "$DIR" ]; then
+    echo "Directory $DIR exists."
+else:
+    echo "Directory $DIR does not exist."
+    mkdir -p "$DIR"
+fi
 
-# Scrip for running initial migration
-poetry run alembic revision --autogenerate -m "Initial Migration"
+poetry run alembic check
+status=$?
 
-# Run Alembic migrations
-poetry run alembic upgrade head
+if [ $status -eq 0  ]; then
+    echo "NO changes detected"
+else
+    echo "Chagnes detected. Running alembic migration"
+    poetry run alembic revision --autogenerate -m "Initial Migration"
+    # Run Alembic migrations
+    poetry run alembic upgrade head
 
 # Start FastAPI server
 poetry run python main.py

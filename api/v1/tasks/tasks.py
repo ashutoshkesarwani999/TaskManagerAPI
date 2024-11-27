@@ -1,7 +1,6 @@
 from typing import List, Optional, Union
 
 from fastapi import APIRouter, Body, Depends, Path, Query, Request, status
-
 from app.controllers.task import TaskController
 from app.schemas.exceptions import (
     DatabaseError,
@@ -13,6 +12,7 @@ from app.schemas.request import TaskCreateRequest, TaskUpdateRequest
 from app.schemas.response import TaskResponse
 from core.exceptions import BadRequestException
 from core.factory.factory import Factory
+from core.security.limiter import limiter
 
 task_router = APIRouter()
 
@@ -84,7 +84,9 @@ async def create_task(
     response_model=List[TaskResponse],
     responses={500: {"model": DatabaseError, "description": "Database error occured"}},
 )
+@limiter.limit("2/minute")
 async def get_tasks(
+    request: Request,
     skip: int = Query(
         default=0, ge=0, description="Number of tasks to skip (pagination)"
     ),

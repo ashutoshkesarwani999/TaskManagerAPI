@@ -1,15 +1,24 @@
 from typing import List
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.middleware.exceptions import ExceptionMiddleware
-
+from slowapi.middleware import SlowAPIMiddleware
+from slowapi.errors import RateLimitExceeded
 from api import router
 from core.config import config
 from core.fastapi.middleware.sqlalchemy import SQLAlchemyMiddleware
+from core.security.limiter import limiter
+
+
+def rate_limit_handler(request: Request, exc: RateLimitExceeded):
+    return JSONResponse(
+        status_code=429,
+        content={"detail": "Rate limit exceeded. Try again later."},
+    )
 
 
 def init_routers(app_: FastAPI) -> None:
@@ -22,11 +31,11 @@ def init_routers(app_: FastAPI) -> None:
 async def global_exception_handler(request, exc):
     """
     Global exception handler for the FastAPI application.
-    
+
     Args:
         request: The incoming request
         exc: The exception that was raised
-        
+
     Returns:
         JSONResponse: A JSON response containing error details
             - For StarletteHTTPException: Returns the status code and error detail
@@ -46,7 +55,7 @@ async def global_exception_handler(request, exc):
 def make_middleware() -> List[Middleware]:
     """
     Configure and create middleware stack for the FastAPI application.
-    
+
     Returns:
         List[Middleware]: A list of middleware configurations including:
             - CORS middleware with all origins allowed
@@ -78,6 +87,9 @@ def create_app() -> FastAPI:
         docs_url=None if config.ENVIRONMENT == "production" else "/docs",
         middleware=make_middleware(),
     )
+    app_.add_exception_handler(RateLimitExceeded, rate_limit_handler)
+    app_.state.limiter = limiter
+    app_.add_middleware(SlowAPIMiddleware)
     init_routers(app_=app_)
 
     return app_
